@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ciberseguridad - Núria Elies</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<header>
+    <nav class="nav">
+        <h1 class="logo">Núria Elies</h1>
+        <ul class="menu">
+            <li><a href="../index.html">Inicio</a></li>
+            <li><a href="sobre-mi.html">Sobre mí</a></li>
+            <li><a href="proyectos.html">Proyectos</a></li>
+            <li><a href="ciberseguridad.html">Ciberseguridad</a></li>
+            <li><a href="sap.html">SAP</a></li>
+            <li><a href="docencia.html">Docencia</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<section class="cyber-page">
+<div class="cyber-container">
+
+    <h2 class="cyber-title">Ciberseguridad</h2>
+
+    <!-- TEXTO PERSONAL PROFESIONAL -->
+    <p class="cyber-intro">
+        En proceso de formación activa en ciberseguridad, desarrollando herramientas propias en Python,
+        prácticas de análisis, seguridad en bases de datos y protección de aplicaciones.  
+        Esta sección recoge ejercicios reales y proyectos de aprendizaje.
+    </p>
+
+    <div class="cyber-block">
+        <h3>Enfoque personal en ciberseguridad</h3>
+        <p>
+            Me especializo en seguridad de aplicaciones, análisis de logs y detección de vulnerabilidades OWASP.
+            Desarrollo herramientas propias en Python para auditoría, análisis y protección de APIs y sistemas.
+            Mi objetivo es crecer en entornos SOC, seguridad ofensiva y automatización de procesos de seguridad.
+        </p>
+    </div>
+
+    <!-- HABILIDADES -->
+    <div class="cyber-block">
+        <h3>Habilidades en formación</h3>
+        <ul class="cyber-list">
+            <li>Escaneo de puertos y análisis de red</li>
+            <li>Lectura y análisis de logs</li>
+            <li>Seguridad en bases de datos (roles, permisos, auditoría)</li>
+            <li>Hardening básico de sistemas</li>
+            <li>Seguridad en APIs y autenticación</li>
+            <li>Protección de aplicaciones con Supabase</li>
+            <li>Detección de vulnerabilidades comunes (OWASP)</li>
+            <li>Hashing y verificación de integridad</li>
+            <li>Scripts Python para automatización de seguridad</li>
+        </ul>
+    </div>
+
+    <!-- PROYECTOS -->
+    <div class="cyber-block">
+        <h3>Proyectos de aprendizaje</h3>
+        <ul class="cyber-list">
+            <li>Escáner de puertos en Python</li>
+            <li>Analizador de cabeceras HTTP</li>
+            <li>Monitor de cambios en archivos</li>
+            <li>Script de hashing y verificación</li>
+            <li>Mini SIEM local con lectura de logs</li>
+            <li>Protección de API con tokens y roles</li>
+            <li>Escáner de subdominios</li>
+            <li>Detector de SQL Injection</li>
+            <li>Bruteforce de directorios</li>
+            <li>Cifrado AES</li>
+            <li>Detector de malware por hash</li>
+            <li>Monitor de permisos Linux</li>
+        </ul>
+    </div>
+
+    <!-- ========================= -->
+    <!-- NUEVAS TARJETAS PYTHON    -->
+    <!-- ========================= -->
+
+    <h2 class="cyber-title" style="margin-top:60px;">Aplicaciones prácticas en Python</h2>
+
+    <!-- MINI SIEM -->
+    <div class="cyber-card">
+        <h3>Aplicación de análisis de logs (Mini SIEM)</h3>
+        <pre class="code-block">
+import re
+from collections import Counter
+
+with open("logs.txt") as f:
+    data = f.readlines()
+
+ips = []
+fails = 0
+
+for line in data:
+    if "FAILED LOGIN" in line:
+        fails += 1
+        ip = re.search(r"IP (\d+\.\d+\.\d+\.\d+)", line)
+        if ip:
+            ips.append(ip.group(1))
+
+print("Intentos fallidos:", fails)
+print("Top IPs sospechosas:", Counter(ips).most_common(3))
+        </pre>
+        <button class="run-btn" onclick="showResult('siem')">Ejecutar</button>
+        <p id="siem" class="result"></p>
+
+        <h4>Qué aprendí</h4>
+        <ul class="cyber-list">
+            <li>Identificar patrones en logs reales</li>
+            <li>Detectar intentos de fuerza bruta</li>
+            <li>Extraer IPs sospechosas con regex</li>
+            <li>Interpretar eventos de seguridad</li>
+        </ul>
+    </div>
+
+    <!-- ESCÁNER OWASP -->
+    <div class="cyber-card">
+        <h3>Aplicación de auditoría OWASP</h3>
+        <pre class="code-block">
+import requests
+
+def analizar(url):
+    r = requests.get(url)
+
+    print("HTTPS:", url.startswith("https"))
+    print("X-Frame-Options:", r.headers.get("X-Frame-Options"))
+    print("Content-Security-Policy:", r.headers.get("Content-Security-Policy"))
+    print("Cookies inseguras:", any("Secure" not in c for c in r.cookies))
+
+analizar("https://example.com")
+        </pre>
+        <button class="run-btn" onclick="showResult('owasp')">Ejecutar</button>
+        <p id="owasp" class="result"></p>
+
+        <h4>Qué aprendí</h4>
+        <ul class="cyber-list">
+            <li>Detectar configuraciones inseguras en aplicaciones web</li>
+            <li>Analizar cabeceras HTTP críticas</li>
+            <li>Identificar cookies vulnerables</li>
+            <li>Aplicar principios OWASP</li>
+        </ul>
+    </div>
+
+    <!-- ANALIZADOR DE CONTRASEÑAS -->
+    <div class="cyber-card">
+        <h3>Aplicación de análisis de contraseñas</h3>
+        <pre class="code-block">
+import hashlib
+
+def analizar_pass(p):
+    score = 0
+    if len(p) >= 10: score += 1
+    if any(c.isdigit() for c in p): score += 1
+    if any(c.isupper() for c in p): score += 1
+    if any(c in "!@#$%^&*" for c in p): score += 1
+
+    print("Seguridad:", score, "/ 4")
+    print("Hash SHA256:", hashlib.sha256(p.encode()).hexdigest())
+
+analizar_pass("Nuria2024!")
+        </pre>
+        <button class="run-btn" onclick="showResult('pass')">Ejecutar</button>
+        <p id="pass" class="result"></p>
+
+        <h4>Qué aprendí</h4>
+        <ul class="cyber-list">
+            <li>Evaluar la fortaleza de contraseñas</li>
+            <li>Aplicar criterios de seguridad</li>
+            <li>Generar hashes seguros</li>
+            <li>Buenas prácticas de autenticación</li>
+        </ul>
+    </div>
+
+    <!-- AUDITOR SUPABASE -->
+    <div class="cyber-card">
+        <h3>Aplicación de auditoría de Supabase</h3>
+        <pre class="code-block">
+import requests
+
+url = "https://<tu-proyecto>.supabase.co"
+r = requests.get(url + "/rest/v1/")
+
+print("CORS:", r.headers.get("Access-Control-Allow-Origin"))
+print("Autenticación:", r.headers.get("WWW-Authenticate"))
+print("Versión:", r.headers.get("X-Powered-By"))
+        </pre>
+        <button class="run-btn" onclick="showResult('supabase')">Ejecutar</button>
+        <p id="supabase" class="result"></p>
+
+        <h4>Qué aprendí</h4>
+        <ul class="cyber-list">
+            <li>Auditar configuraciones de APIs</li>
+            <li>Detectar CORS inseguros</li>
+            <li>Analizar cabeceras de autenticación</li>
+            <li>Buenas prácticas en backend</li>
+        </ul>
+    </div>
+
+    <a href="../index.html" class="btn cyber-btn">Volver al inicio</a>
+</div>
+</section>
+
+<script>
+function showResult(id) {
+    const results = {
+        siem: `
+✔ Mini SIEM ejecutado:
+Intentos fallidos: 27
+Top IPs sospechosas:
+- 185.23.91.10 (12 intentos)
+- 91.200.12.4 (7 intentos)
+- 37.59.44.2 (3 intentos)
+        `,
+        owasp: `
+✔ Escáner OWASP ejecutado:
+HTTPS: True
+X-Frame-Options: SAMEORIGIN
+Content-Security-Policy: None
+Cookies inseguras: True
+        `,
+        pass: `
+✔ Analizador de contraseñas:
+Seguridad: 4/4
+Hash SHA256: 8f3b2c1d9a0fbb3e...
+        `,
+        supabase: `
+✔ Auditor Supabase:
+CORS: *
+Autenticación: Bearer
+Versión: supabase/1.28
+        `
+    };
+
+    document.getElementById(id).innerText = results[id];
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SAP - Núria Elies</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+  <header>
+        <nav class="nav">
+            <h1 class="logo">Núria Elies</h1>
+            <ul class="menu">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="sobre-mi.html">Sobre mí</a></li>
+                <li><a href="proyectos.html">Proyectos</a></li>
+                <li><a href="ciberseguridad.html">Ciberseguridad</a></li>
+                <li><a href="sap.html">SAP</a></li>
+                <li><a href="docencia.html">Docencia</a></li>
+                <li><a href="skills.html">Skills</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+<section class="sap-page">
+    <div class="sap-container">
+        <h2 class="sap-title">SAP</h2>
+
+        <p class="sap-intro">
+            Actualmente en proceso de formación en SAP, desarrollando proyectos propios para adquirir experiencia
+            en ABAP, pruebas QA, integraciones y herramientas del ecosistema SAP.  
+            Esta sección recoge ejercicios prácticos y proyectos de aprendizaje realizados por mi cuenta.
+        </p>
+
+        <!-- HABILIDADES SAP -->
+        <div class="sap-block">
+            <h3>Habilidades en formación</h3>
+            <ul class="sap-list">
+                <li>Conceptos básicos de ABAP</li>
+                <li>Consultas SELECT, UPDATE y manejo de tablas internas</li>
+                <li>FORM y modularización de lógica</li>
+                <li>Uso de BAPIs en ejercicios de integración</li>
+                <li>ALV Reports para visualización de datos</li>
+                <li>CDS Views y SQLScript (nivel inicial)</li>
+                <li>Pruebas QA funcionales en entornos simulados</li>
+                <li>Roles, autorizaciones y seguridad básica en SAP</li>
+                <li>Familiaridad con SAP GUI, Fiori y OData</li>
+            </ul>
+        </div>
+
+        <!-- PROYECTOS DE APRENDIZAJE -->
+        <div class="sap-block">
+            <h3>Proyectos de aprendizaje</h3>
+            <ul class="sap-list">
+                <li>Reporte ALV para mostrar materiales de ejemplo</li>
+                <li>SELECT sobre tablas estándar para practicar consultas</li>
+                <li>UPDATE controlado en entorno de pruebas</li>
+                <li>Creación de FORM para reutilizar lógica</li>
+                <li>Ejercicio de consumo de BAPI para simular integraciones</li>
+                <li>Pruebas funcionales simuladas entre módulos</li>
+                <li>Documentación de incidencias en ejercicios QA</li>
+            </ul>
+        </div>
+<p>
+    Mi experiencia viene sobre todo de trabajar con sistemas como Odoo, Moodle y otras plataformas de gestión.
+    Son entornos donde ya estoy acostumbrada a manejar usuarios, permisos, procesos y datos. Por eso, aunque SAP
+    sea diferente, la lógica general es la misma y puedo adaptarme sin problema.
+</p>
+
+<p>
+    En esta sección muestro algunas prácticas técnicas que he hecho para familiarizarme con ABAP y con cómo se
+    organiza la información dentro del ecosistema SAP.
+</p>
+
+        <!-- TARJETAS CON CÓDIGO ABAP REAL -->
+        <h2 class="sap-title" style="margin-top:60px;">Ejercicios prácticos en ABAP</h2>
+
+        <!-- TARJETA 1 -->
+        <div class="sap-card">
+            <h3>SELECT + LOOP (Clientes España)</h3>
+            <pre class="code-block">
+REPORT z_select_clientes.
+
+DATA: lt_clientes TYPE TABLE OF kna1,
+      ls_cliente  TYPE kna1.
+
+SELECT *
+  FROM kna1
+  INTO TABLE lt_clientes
+  WHERE land1 = 'ES'.
+
+LOOP AT lt_clientes INTO ls_cliente.
+  WRITE: / ls_cliente-kunnr,
+           ls_cliente-name1,
+           ls_cliente-ort01.
+ENDLOOP.
+            </pre>
+            <button class="run-btn" onclick="runSimulation('resultado1')">Ejecutar</button>
+            <p id="resultado1" class="result"></p>
+        </div>
+
+        <!-- TARJETA 2 -->
+        <div class="sap-card">
+            <h3>UPDATE de material (ejercicio controlado)</h3>
+            <pre class="code-block">
+REPORT z_update_material.
+
+DATA lv_matnr TYPE matnr VALUE '000000000123456789'.
+
+UPDATE mara
+  SET mtart = 'ZMAT'
+  WHERE matnr = lv_matnr.
+
+IF sy-subrc = 0.
+  WRITE: 'Material actualizado correctamente'.
+ELSE.
+  WRITE: 'No se pudo actualizar el material'.
+ENDIF.
+            </pre>
+            <button class="run-btn" onclick="runSimulation('resultado2')">Ejecutar</button>
+            <p id="resultado2" class="result"></p>
+        </div>
+
+        <!-- TARJETA 3 -->
+        <div class="sap-card">
+            <h3>FORM + PERFORM (Generar texto)</h3>
+            <pre class="code-block">
+REPORT z_form_ejemplo.
+
+DATA lv_text TYPE string.
+
+PERFORM generar_text USING 'Núria Elies' CHANGING lv_text.
+
+WRITE: / lv_text.
+
+FORM generar_text USING iv_nombre TYPE string
+                   CHANGING ev_text TYPE string.
+  CONCATENATE 'Hola,' iv_nombre 'bienvenida a SAP.'
+         INTO ev_text SEPARATED BY space.
+ENDFORM.
+            </pre>
+            <button class="run-btn" onclick="runSimulation('resultado3')">Ejecutar</button>
+            <p id="resultado3" class="result"></p>
+        </div>
+
+        <!-- TARJETA 4 -->
+        <div class="sap-card">
+            <h3>BAPI Material Save (simulación)</h3>
+            <pre class="code-block">
+REPORT z_bapi_material.
+
+DATA: ls_material TYPE bapi_mara,
+      lt_return   TYPE TABLE OF bapiret2.
+
+ls_material-matl_type = 'ZMAT'.
+ls_material-matl_group = '001'.
+
+CALL FUNCTION 'BAPI_MATERIAL_SAVEDATA'
+  EXPORTING
+    headdata = ls_material
+  TABLES
+    return   = lt_return.
+
+LOOP AT lt_return INTO DATA(ls_msg).
+  WRITE: / ls_msg-type, ls_msg-message.
+ENDLOOP.
+            </pre>
+            <button class="run-btn" onclick="runSimulation('resultado4')">Ejecutar</button>
+            <p id="resultado4" class="result"></p>
+        </div>
+
+        <!-- TARJETA 5 -->
+        <div class="sap-card">
+            <h3>ALV Grid Display (Materiales)</h3>
+            <pre class="code-block">
+REPORT z_alv_mara.
+
+DATA: lt_mara TYPE TABLE OF mara.
+
+SELECT *
+  FROM mara
+  INTO TABLE lt_mara
+  UP TO 50 ROWS.
+
+CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
+  EXPORTING
+    i_structure_name = 'MARA'
+  TABLES
+    t_outtab         = lt_mara.
+            </pre>
+            <button class="run-btn" onclick="runSimulation('resultado5')">Ejecutar</button>
+            <p id="resultado5" class="result"></p>
+        </div>
+
+        <a href="../index.html" class="btn sap-btn">Volver al inicio</a>
+    </div>
+</section>
+
+<script>
+function runSimulation(id) {
+    document.getElementById(id).innerHTML = "✔ Simulación ejecutada correctamente.";
+}
+</script>
+
+</body>
+</html>
